@@ -340,7 +340,7 @@ namespace RegexToolbox
 
         /// <summary>
         /// Start a capture group. Capture groups have two purposes: they group part of the expression so
-        /// it can have quanitifiers applied to it, and they capture the results of each group match and
+        /// it can have quantifiers applied to it, and they capture the results of each group match and
         /// allow you to access them afterwards using Match.Groups.
         /// 
         /// If you don't want to capture the group match, use <see cref="StartNonCapturingGroup"/>.
