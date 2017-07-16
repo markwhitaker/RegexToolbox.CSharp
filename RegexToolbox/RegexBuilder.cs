@@ -340,7 +340,7 @@ namespace RegexToolbox
 
         /// <summary>
         /// Start a capture group. Capture groups have two purposes: they group part of the expression so
-        /// it can have quanitifiers applied to it, and they capture the results of each group match and
+        /// it can have quantifiers applied to it, and they capture the results of each group match and
         /// allow you to access them afterwards using Match.Groups.
         /// 
         /// If you don't want to capture the group match, use <see cref="StartNonCapturingGroup"/>.
@@ -385,13 +385,49 @@ namespace RegexToolbox
         }
 
         /// <summary>
-        /// Add a zero-width element to start a capture group. Capture groups remember subsets of the
-        /// matched string and allow you to access them afterwards using Match.Groups.
-        /// 
-        /// Note: all groups must be ended with <see cref="EndGroup"/> before calling <see cref="BuildRegex"/>.
+        /// Start a zero-width, positive look-ahead group.
         /// </summary>
-        /// <param name="quantifier">Quantifier to apply to this group</param>
-        public virtual RegexBuilder EndGroup(RegexQuantifier quantifier = null)
+        public RegexBuilder StartPositiveLookAheadGroup()
+        {
+            StringBuilder.Append("(?=");
+            return new RegexGroupBuilder(this);
+        }
+
+		/// <summary>
+		/// Start a zero-width, negative look-ahead group.
+		/// </summary>
+		public RegexBuilder StartNegativeLookAheadGroup()
+		{
+			StringBuilder.Append("(?!");
+			return new RegexGroupBuilder(this);
+		}
+
+		/// <summary>
+		/// Start a zero-width, positive look-behind group.
+		/// </summary>
+		public RegexBuilder StartPositiveLookBehindGroup()
+		{
+			StringBuilder.Append("(?<=");
+			return new RegexGroupBuilder(this);
+		}
+
+		/// <summary>
+		/// Start a zero-width, negative look-behind group.
+		/// </summary>
+		public RegexBuilder StartNegativeLookBehindGroup()
+		{
+			StringBuilder.Append("(?<!");
+			return new RegexGroupBuilder(this);
+		}
+
+		/// <summary>
+		/// Add a zero-width element to start a capture group. Capture groups remember subsets of the
+		/// matched string and allow you to access them afterwards using Match.Groups.
+		/// 
+		/// Note: all groups must be ended with <see cref="EndGroup"/> before calling <see cref="BuildRegex"/>.
+		/// </summary>
+		/// <param name="quantifier">Quantifier to apply to this group</param>
+		public virtual RegexBuilder EndGroup(RegexQuantifier quantifier = null)
         {
             throw new RegexBuilderException("Cannot call Endgroup() until a group has been started with StartGroup()", StringBuilder);
         }

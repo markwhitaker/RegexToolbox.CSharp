@@ -618,7 +618,77 @@ namespace RegexToolbox.Tests
             Assert.IsFalse(match.Success);
         }
 
-        [Test]
+		[Test]
+		public void TestPositiveLookAheadGroup()
+		{
+			var regex = new RegexBuilder()
+				.Letter()
+				.StartPositiveLookAheadGroup()
+	    			.Digit()
+				.EndGroup()
+				.BuildRegex();
+
+			Assert.AreEqual(@"[a-zA-Z](?=\d)", regex.ToString());
+			Assert.IsTrue(regex.IsMatch("a1"));
+			Assert.IsTrue(regex.IsMatch("a1a"));
+			Assert.IsFalse(regex.IsMatch("aa"));
+		}
+
+		[Test]
+		public void TestPositiveLookBehindGroup()
+		{
+			var regex = new RegexBuilder()
+				.StartPositiveLookBehindGroup()
+					.Letter()
+				.EndGroup()
+				.Digit()
+				.BuildRegex();
+
+			Assert.AreEqual(@"(?<=[a-zA-Z])\d", regex.ToString());
+			Assert.IsTrue(regex.IsMatch("a1"));
+			Assert.IsTrue(regex.IsMatch("a1a"));
+			Assert.IsFalse(regex.IsMatch("aa"));
+			Assert.IsFalse(regex.IsMatch("1"));
+			Assert.IsFalse(regex.IsMatch("1a"));
+		}
+
+		[Test]
+		public void TestNegativeLookAheadGroup()
+		{
+			var regex = new RegexBuilder()
+				.Letter()
+				.StartNegativeLookAheadGroup()
+    				.Digit()
+				.EndGroup()
+				.BuildRegex();
+
+			Assert.AreEqual(@"[a-zA-Z](?!\d)", regex.ToString());
+			Assert.IsFalse(regex.IsMatch("a1"));
+			Assert.IsTrue(regex.IsMatch("a1a"));
+			Assert.IsTrue(regex.IsMatch("aa"));
+			Assert.IsFalse(regex.IsMatch("1"));
+			Assert.IsTrue(regex.IsMatch("1a"));
+		}
+
+		[Test]
+		public void TestNegativeLookBehindGroup()
+		{
+			var regex = new RegexBuilder()
+				.StartNegativeLookBehindGroup()
+	    			.Letter()
+				.EndGroup()
+				.Digit()
+				.BuildRegex();
+
+            Assert.AreEqual(@"(?<![a-zA-Z])\d", regex.ToString());
+			Assert.IsFalse(regex.IsMatch("a1"));
+			Assert.IsFalse(regex.IsMatch("a1a"));
+			Assert.IsFalse(regex.IsMatch("aa"));
+			Assert.IsTrue(regex.IsMatch("1"));
+			Assert.IsTrue(regex.IsMatch("1a"));
+		}
+
+		[Test]
         public void TestZeroOrMore()
         {
             var regex = new RegexBuilder()
