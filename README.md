@@ -2,7 +2,7 @@
 
 **This repo has been archived and replaced by [RegexToolbox.NET](https://github.com/markwhitaker/RegexToolbox.NET).**
 
-RegexToolbox.NET is the same codebase and publishes to the same NuGet repo, but is built with .NET Core.
+RegexToolbox.NET is the same codebase and publishes to the same NuGet repo, but is built with .NET Standard.
 
 ## NuGet package
 
